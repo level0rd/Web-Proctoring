@@ -13,11 +13,10 @@ LEFT_EYE_POINTS = [36, 37, 38, 39, 40, 41]
 RIGHT_EYE_POINTS = [42, 43, 44, 45, 46, 47]
 BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
+RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 pose = mp.solutions.pose.Pose(model_complexity=0)
 detector = Ultralight320Detector()
-
-RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 streaming_placeholder = st.empty()
 
