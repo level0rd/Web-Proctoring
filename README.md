@@ -1,2 +1,2 @@
-# web_proctoring
+# Online proctoring system
 Simple proctoring system on python.
