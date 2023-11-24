@@ -13,7 +13,7 @@ import mediapipe as mp
 import pvcobra
 from pvrecorder import PvRecorder
 
-o = pvcobra.create(access_key='gZgnRwd8XhxiK9saS009HUjsm+b2QGrwHEE/b2tEiQgAiT6QVeWWpg==')
+o = pvcobra.create(access_key='your_access_key')
 recorder = PvRecorder(frame_length=512, device_index=3)
 
 FONT = cv2.FONT_HERSHEY_PLAIN
