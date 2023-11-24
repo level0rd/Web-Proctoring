@@ -13,7 +13,7 @@ import mediapipe as mp
 import pvcobra
 from pvrecorder import PvRecorder
 
-o = pvcobra.create(access_key='your_access_key')
+cobra = pvcobra.create(access_key='your_access_key')
 recorder = PvRecorder(frame_length=512, device_index=3)
 
 FONT = cv2.FONT_HERSHEY_PLAIN
@@ -262,7 +262,7 @@ def process_audio(frame: av.AudioFrame) -> av.AudioFrame:
    
     while True:
         pcm = recorder.read()
-        is_voiced = o.process(pcm)
+        is_voiced = cobra.process(pcm)
         print(is_voiced)
 
 
