@@ -275,6 +275,3 @@ with streaming_placeholder.container():
         media_stream_constraints={"video": True, "audio": True},
         async_processing=True,
     )
-
-
-# streamlit run D:/PyCharm/streamlit-webrtc-example-main/pages/1_object_detection.py
