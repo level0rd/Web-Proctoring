@@ -3,6 +3,7 @@ import numpy as np
 import av
 import time
 import copy
+from enum import Enum
 
 import streamlit as st
 from streamlit_webrtc import AudioProcessorBase, WebRtcMode, RTCConfiguration, webrtc_streamer
@@ -12,6 +13,16 @@ import mediapipe as mp
 
 import pvcobra
 from pvrecorder import PvRecorder
+
+class GazeDirection(Enum):
+    LEFT = "LEFT"
+    CENTER = "CENTER"
+    RIGHT = "RIGHT"
+
+
+class HandsPosition(Enum):
+    BOTTOM = "BOTTOM"
+    TOP = "TOP"
 
 cobra = pvcobra.create(access_key='your_access_key')
 recorder = PvRecorder(frame_length=512, device_index=3)
@@ -92,11 +103,11 @@ def get_gaze_direction(img, img_height, img_width):
     gaze_ratio = (gaze_ration_right_eye + gaze_ration_left_eye) / 2
 
     if gaze_ratio <= 0.85:
-        gaze_direction = "LEFT"
+        gaze_direction = GazeDirection.LEFT.value
     elif 0.85 < gaze_ratio < 1.6:
-        gaze_direction = "CENTER"
+        gaze_direction = GazeDirection.CENTER.value
     else:
-        gaze_direction = "RIGHT"
+        gaze_direction = GazeDirection.RIGHT.value
 
     return gaze_direction
 
@@ -247,9 +258,9 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
 
         if (p16[1] > hand_border and p18[1] > hand_border and p20[1] > hand_border and p22[1] > hand_border) or \
                 (p15[1] > hand_border and p17[1] > hand_border and p19[1] > hand_border and p21[1] > hand_border):
-            hands_positions = 'BOTTOM'
+            hands_positions = HandsPosition.BOTTOM.value
         else:
-            hands_positions = 'TOP'
+            hands_positions = HandsPosition.TOP.value
 
         cv2.putText(img_rgb, 'Hands: ' + hands_positions, (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
 
