@@ -120,6 +120,7 @@ def hand_filling(hand_coordinates, image):
     Fill hands with color to prevent mpPose from finding them again.
 
     """
+	
     hand_coordinates = hand_coordinates.reshape((-1, 1, 2))
     cv2.fillPoly(image, [hand_coordinates], color=WHITE)
 
