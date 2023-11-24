@@ -255,7 +255,7 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
     return av.VideoFrame.from_ndarray(img_rgb, format="rgb24")
 
 
-def process_audio(frame: av.AudioFrame) -> av.AudioFrame: #frame: av.AudioFrame
+def process_audio(frame: av.AudioFrame) -> av.AudioFrame:
 
     recorder.start()
    
@@ -271,7 +271,7 @@ with streaming_placeholder.container():
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
         video_frame_callback=callback,
-        #audio_frame_callback=process_audio,
+        audio_frame_callback=process_audio,
         media_stream_constraints={"video": True, "audio": True},
         async_processing=True,
     )
