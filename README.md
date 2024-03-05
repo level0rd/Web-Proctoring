@@ -1,7 +1,7 @@
 # Online proctoring system
 Simple proctoring system on python. It automatically tracks the user’s gaze direction and hand position. The system detects the user’s departure and the presence of a second person. The presence of a voice is also detects.
 
-## Build and run the Application Locally
+## Build and run the application locally
 ```python
 streamlit run main.py
 ```
