@@ -47,7 +47,7 @@ RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.goog
 streaming_placeholder = st.empty()
 
 
-def det_gaze_ratio(
+def get_gaze_ratio(
 	eye_points: [int], 
 	facial_landmarks: np.ndarray, 
 	height: int, 
@@ -110,8 +110,8 @@ def get_gaze_direction(img: np.ndarray, img_height: int, img_width: int) -> str:
 
     landmarks = bbox[0]['keypoints']
 
-    gaze_ration_left_eye = det_gaze_ratio(LEFT_EYE_POINTS, landmarks, img_height, img_width, gray)
-    gaze_ration_right_eye = det_gaze_ratio(RIGHT_EYE_POINTS, landmarks, img_height, img_width, gray)
+    gaze_ration_left_eye = get_gaze_ratio(LEFT_EYE_POINTS, landmarks, img_height, img_width, gray)
+    gaze_ration_right_eye = get_gaze_ratio(RIGHT_EYE_POINTS, landmarks, img_height, img_width, gray)
     gaze_ratio = (gaze_ration_right_eye + gaze_ration_left_eye) / 2
 
     if gaze_ratio <= 0.85:
