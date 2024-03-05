@@ -4,6 +4,7 @@ import av
 import time
 import copy
 from enum import Enum
+from typing import List, Tuple
 
 import streamlit as st
 from streamlit_webrtc import AudioProcessorBase, WebRtcMode, RTCConfiguration, webrtc_streamer
@@ -33,6 +34,10 @@ RIGHT_EYE_POINTS = [42, 43, 44, 45, 46, 47]
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
+FONT_SIZE = 2
+FONT_THICKNESS = 3
+CIRCLE_SIZE = 3
+LINE_THICKNESS = 1
 
 pose = mp.solutions.pose.Pose(model_complexity=0)
 detector = Ultralight320Detector()
@@ -42,7 +47,14 @@ RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.goog
 streaming_placeholder = st.empty()
 
 
-def det_gaze_ratio(eye_points, facial_landmarks, height, width, gray):
+def det_gaze_ratio(
+	eye_points: [int], 
+	facial_landmarks: np.ndarray, 
+	height: int, 
+	width: int, 
+	gray: np.ndarray
+) -> float:
+   	
     """
 
     Calculate white pixel ratio.
@@ -86,7 +98,7 @@ def det_gaze_ratio(eye_points, facial_landmarks, height, width, gray):
     return gaze_ration
 
 
-def get_gaze_direction(img, img_height, img_width):
+def get_gaze_direction(img: np.ndarray, img_height: int, img_width: int) -> str:
     """
 
     Calculate the direction of the eye(left, center, right).
@@ -112,7 +124,8 @@ def get_gaze_direction(img, img_height, img_width):
     return gaze_direction
 
 
-def get_coordinates(number, body, img_height, img_width):
+def get_coordinates(number: int, body: mp.solutions.pose.Pose, img_height: int, img_width: int) -> Tuple[int, int]:
+    
     """
 
     Calculate the coordinates of a key point in an image.
@@ -125,7 +138,7 @@ def get_coordinates(number, body, img_height, img_width):
     return x, y
 
 
-def hand_filling(hand_coordinates, image):
+def hand_filling(hand_coordinates: np.ndarray, image: np.ndarray) -> None:
     """
 
     Fill hands with color to prevent mpPose from finding them again.
@@ -151,9 +164,6 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
     body = pose.process(img_rgb)
 
     img_filled_person = copy.deepcopy(img_rgb)
-
-    line_thickness = 1
-    circle_size = 3
     point_color = BLUE
 
     if body.pose_landmarks:
@@ -161,64 +171,31 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
 	#################
         # Drawing hands #
         #################
-	
-        # shoulders
-        p11 = get_coordinates(11, body, image_height, image_width)
-        cv2.circle(img_rgb, p11, circle_size, point_color, -1)
-        p12 = get_coordinates(12, body, image_height, image_width)
-        cv2.circle(img_rgb, p12, circle_size, point_color, -1)
+	    
+	#  of landmark pairs forming hands
+    hand_landmarks = [
+        [11, 12, 13, 15, 21],  # Right hand
+        [12, 14, 16, 22, 18]   # Left hand
+    ]
 
-        cv2.line(img_rgb, p12, p11, WHITE, 2)
+    #  of landmark pairs forming shoulders
+    shoulder_landmarks = [[11, 12], [1, 2], [1, 11], [2, 12]]
 
-        # right hand
-        p13 = get_coordinates(13, body, image_height, image_width)
-        cv2.circle(img_rgb, p13, circle_size, point_color, -1)
-        p15 = get_coordinates(15, body, image_height, image_width)
-        cv2.circle(img_rgb, p15, circle_size, point_color, -1)
-        p17 = get_coordinates(17, body, image_height, image_width)
-        cv2.circle(img_rgb, p17, circle_size, point_color, -1)
-        p19 = get_coordinates(19, body, image_height, image_width)
-        cv2.circle(img_rgb, p19, circle_size, point_color, -1)
-        p21 = get_coordinates(21, body, image_height, image_width)
-        cv2.circle(img_rgb, p21, circle_size, point_color, -1)
+    for landmarks in hand_landmarks:
+        for i in range(len(landmarks) - 1):
+            p1 = get_coordinates(landmarks[i], body, image_height, image_width)
+            p2 = get_coordinates(landmarks[i + 1], body, image_height, image_width)
+            cv2.line(img_rgb, p1, p2, WHITE, LINE_THICKNESS)
+            cv2.circle(img_rgb, p1, CIRCLE_SIZE, point_color, -1)
+            if i == len(landmarks) - 2:  # For the last point
+                cv2.circle(img_rgb, p2, CIRCLE_SIZE, point_color, -1)
 
-        cv2.line(img_rgb, p11, p13, WHITE, line_thickness)
-        cv2.line(img_rgb, p13, p15, WHITE, line_thickness)
-        cv2.line(img_rgb, p15, p21, WHITE, line_thickness)
-        cv2.line(img_rgb, p15, p17, WHITE, line_thickness)
-        cv2.line(img_rgb, p15, p19, WHITE, line_thickness)
-
-        # left hand
-        p14 = get_coordinates(14, body, image_height, image_width)
-        cv2.circle(img_rgb, p14, circle_size, point_color, -1)
-        p16 = get_coordinates(16, body, image_height, image_width)
-        cv2.circle(img_rgb, p16, circle_size, point_color, -1)
-        p18 = get_coordinates(18, body, image_height, image_width)
-        cv2.circle(img_rgb, p18, circle_size, point_color, -1)
-        p20 = get_coordinates(20, body, image_height, image_width)
-        cv2.circle(img_rgb, p20, circle_size, point_color, -1)
-        p22 = get_coordinates(22, body, image_height, image_width)
-        cv2.circle(img_rgb, p22, circle_size, point_color, -1)
-
-        cv2.line(img_rgb, p12, p14, WHITE, line_thickness)
-        cv2.line(img_rgb, p14, p16, WHITE, line_thickness)
-        cv2.line(img_rgb, p16, p22, WHITE, line_thickness)
-        cv2.line(img_rgb, p16, p20, WHITE, line_thickness)
-        cv2.line(img_rgb, p16, p18, WHITE, line_thickness)
-
-	#####################################
-        # Filling a person for re-detection #
-        #####################################
-
-        # bbox for second person
-        p1 = get_coordinates(1, body, image_height, image_width)
-        p2 = get_coordinates(2, body, image_height, image_width)
-        p3 = get_coordinates(3, body, image_height, image_width)
-        p4 = get_coordinates(4, body, image_height, image_width)
-        p5 = get_coordinates(5, body, image_height, image_width)
-        p6 = get_coordinates(6, body, image_height, image_width)
-        p7 = get_coordinates(7, body, image_height, image_width)
-        p8 = get_coordinates(8, body, image_height, image_width)
+    for landmarks in shoulder_landmarks:
+        p1 = get_coordinates(landmarks[0], body, image_height, image_width)
+        p2 = get_coordinates(landmarks[1], body, image_height, image_width)
+        cv2.line(img_rgb, p1, p2, WHITE, LINE_THICKNESS)
+        cv2.circle(img_rgb, p1, CIRCLE_SIZE, point_color, -1)
+        cv2.circle(img_rgb, p2, CIRCLE_SIZE, point_color, -1)
 
         bbox_cor_x = np.array([p1[0], p2[0], p3[0], p4[0], p5[0], p6[0], p7[0], p8[0], p12[0], p13[0], p14[0]])
         bbox_cor_y = np.array([p1[1], p2[1], p3[1], p4[1], p5[1], p6[1], p7[1], p8[1], p12[1], p13[1], p14[1]])
@@ -245,12 +222,12 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
             bb_x_max = image_width
 
         # Draw filled bbox
-        cv2.rectangle(img_filled_person, (bb_x_min, bb_y_min-70), (bb_x_max, bb_y_max), (255, 255, 255), -1)
+        cv2.rectangle(img_filled_person, (bb_x_min, bb_y_min-70), (bb_x_max, bb_y_max), WHITE, -1)
 
         body_second = pose.process(img_filled_person)
 
         if body_second.pose_landmarks:
-            cv2.putText(img_filled_person, 'Second person detected!', (10, 260), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
+            cv2.putText(img_filled_person, 'Second person detected!', (10, 260), cv2.FONT_HERSHEY_PLAIN, FONT_SIZE, RED, FONT_THICKNESS)
 
 
         # Hands position detection
@@ -262,7 +239,7 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
         else:
             hands_positions = HandsPosition.TOP.value
 
-        cv2.putText(img_rgb, 'Hands: ' + hands_positions, (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
+        cv2.putText(img_rgb, 'Hands: ' + hands_positions, (10, 90), cv2.FONT_HERSHEY_PLAIN, FONT_SIZE, RED, FONT_THICKNESS)
 
     return av.VideoFrame.from_ndarray(img_rgb, format="rgb24")
 
