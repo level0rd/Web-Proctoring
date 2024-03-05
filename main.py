@@ -156,10 +156,10 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
     image_height, image_width, _ = img_rgb.shape
 
     try:
-        cv2.putText(img_rgb, 'Eyes: ' + get_gaze_direction(img_rgb, image_height, image_width), (10, 120), FONT, 2,
-                   (255, 0, 0), 3)
+        cv2.putText(img_rgb, 'Eyes: ' + get_gaze_direction(img_rgb, image_height, image_width), (10, 120), FONT, FONT_SIZE, 
+                   RED, FONT_THICKNESS)
     except IndexError:
-        cv2.putText(img_rgb, 'The examinee is absent!', (10, 200), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
+        cv2.putText(img_rgb, 'The examinee is absent!', (10, 200), cv2.FONT_HERSHEY_PLAIN, 3, RED, FONT_THICKNESS)
 
     body = pose.process(img_rgb)
 
