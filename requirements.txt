@@ -1,7 +1,7 @@
 # pip install -r requirements.txt
 
 # Base ----------------------------------------
-mediapipe==0.9.0.1
+
 av==10.0.0
 aiortc==1.4.0
 matplotlib==3.5.1
@@ -11,4 +11,8 @@ pydub==0.25.1
 streamlit==1.16.0
 streamlit_webrtc==0.44.2
 typing_extensions==4.1.1
-protobuf~=3.19.0
+protobuf>=3.19.0
+pvcobra>=1.2.2
+pvrecorder>=1.2.1
+openvino>=2023.2.1
+face-detectors==0.1.0
