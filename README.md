@@ -21,3 +21,6 @@ streamlit run main.py
 
 ### The second person in the frame
 ![Second_person](https://github.com/level0rd/Web-Proctoring/assets/45522296/2406d509-ddc6-490b-a988-04f0ef00b3d6)
+
+### The direction of view
+![Direction_of_view](https://github.com/level0rd/Web-Proctoring/assets/45522296/3f210f53-cbbf-4fad-af2e-fb7e095f41d0)
