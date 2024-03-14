@@ -17,3 +17,5 @@ streamlit run main.py
 </p>
 
 ### User leaving the frame
+https://github.com/level0rd/Web-Proctoring/assets/45522296/8c698715-9eab-4f6f-bbb6-0e83aa9a581b
+
