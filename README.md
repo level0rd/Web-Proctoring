@@ -15,3 +15,7 @@ streamlit run main.py
 <p align="center">
   <img width="1000" alt="Arch2" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/1d401762-0e82-4152-8ec1-886df33829e1.jpg">
 </p>
+# User leaving the frame
+
+![Leaving](hhttps://github.com/level0rd/Web-Proctoring/assets/45522296/6429f73e-c87c-45e7-87db-8f87d2fbdc8c)
+
