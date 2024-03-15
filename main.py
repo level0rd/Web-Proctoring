@@ -29,7 +29,8 @@ class HandsPosition(Enum):
 
 
 POSE_MODEL = 'models/move_net_openvino.xml'
-INPUT_SIZE = 256
+MOVENET_INPUT_SIZE = 256
+COBRA_ACCESS_KEY = 'your_access_key'
 
 FONT = cv2.FONT_HERSHEY_PLAIN
 FONT_SIZE = 2
@@ -45,7 +46,9 @@ LEFT_GAZE_THRESHOLD = 0.85
 RIGHT_GAZE_THRESHOLD = 1.6
 MOVE_NET_THRESHOLD = 0.1
 
-cobra = pvcobra.create(access_key='your_access_key')
+RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+
+cobra = pvcobra.create(access_key=COBRA_ACCESS_KEY)
 recorder = PvRecorder(frame_length=512, device_index=3)
 
 core = Core()
@@ -53,10 +56,6 @@ ov_model = core.read_model(POSE_MODEL)
 pose_model = core.compile_model(ov_model)
 
 face_detector = Ultralight320Detector()
-
-
-RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
-streaming_placeholder = st.empty()
 
 
 def keep_aspect_ratio_resizer(image: tf.Tensor, target_size: int) -> Tuple[tf.Tensor, Tuple[int, int]]:
@@ -209,7 +208,7 @@ def get_movenet_keypoints(image_rgb: np.ndarray) -> np.ndarray:
     image = tf.compat.v1.image.decode_jpeg(image_bytes)
     image = tf.expand_dims(image, axis=0)
 
-    resized_image, image_shape = keep_aspect_ratio_resizer(image, INPUT_SIZE)
+    resized_image, image_shape = keep_aspect_ratio_resizer(image, MOVENET_INPUT_SIZE)
     input_tensor = tf.cast(resized_image, dtype=tf.uint8)
 
     return pose_model(input_tensor)[0]
@@ -271,13 +270,20 @@ def process_audio(frame: av.AudioFrame) -> av.AudioFrame:
             print("Voice detecte!")
 
 
-with streaming_placeholder.container():
-    webrtc_ctx = webrtc_streamer(
-        key="object-detection",
-        mode=WebRtcMode.SENDRECV,
-        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-        video_frame_callback=callback,
-        audio_frame_callback=process_audio,
-        media_stream_constraints={"video": True, "audio": False}, #
-        async_processing=True,
-    )
+def main():
+	streaming_placeholder = st.empty()
+	
+	with streaming_placeholder.container():
+	    webrtc_ctx = webrtc_streamer(
+	        key="object-detection",
+	        mode=WebRtcMode.SENDRECV,
+	        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+	        video_frame_callback=callback,
+	        audio_frame_callback=process_audio,
+	        media_stream_constraints={"video": True, "audio": False}, #
+	        async_processing=True,
+	    )
+
+
+if __name__ == "__main__":
+    main()
