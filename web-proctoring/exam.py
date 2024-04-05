@@ -34,6 +34,7 @@ class Exam:
         now = datetime.datetime.now()
         return now.strftime(f"Captured/%H_%M_%S_%d_%m_%Y_{self.violation_type}.mp4")
 
+
     def record(self, copied_frame: av.VideoFrame):
         """
         Record the exam session, filtering out false positives

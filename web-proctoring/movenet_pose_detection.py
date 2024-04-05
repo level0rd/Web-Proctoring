@@ -72,7 +72,6 @@ def second_person_detection(keypoints: np.ndarray) -> bool:
     Returns:
         bool: True if a second person is detected, False otherwise.
     """
-    # Взять уверенности для каждого бокса (последний элемент в каждом боксе)
     confidences_per_instance = keypoints[0, :, -1]
     second_person = True if confidences_per_instance[1] >= MOVE_NET_THRESHOLD else False
 
@@ -93,11 +92,6 @@ def draw_pose(i: int, keypoints: np.ndarray,  image_rgb: np.ndarray, lines_color
         None
     """
     image_height, image_width, _ = image_rgb.shape
-    p1 = (round(keypoints[0][i][1] * image_width), round(keypoints[0][i][0] * image_height))
-    p2 = (round(keypoints[0][i][4] * image_width), round(keypoints[0][i][3] * image_height))
-    p3 = (round(keypoints[0][i][7] * image_width), round(keypoints[0][i][6] * image_height))
-    p4 = (round(keypoints[0][i][10] * image_width), round(keypoints[0][i][9] * image_height))
-    p5 = (round(keypoints[0][i][13] * image_width), round(keypoints[0][i][12] * image_height))
 
     p6 = (round(keypoints[0][i][16] * image_width), round(keypoints[0][i][15] * image_height))
     p7 = (round(keypoints[0][i][19] * image_width), round(keypoints[0][i][18] * image_height))
@@ -108,14 +102,10 @@ def draw_pose(i: int, keypoints: np.ndarray,  image_rgb: np.ndarray, lines_color
     p10 = (round(keypoints[0][i][28] * image_width), round(keypoints[0][i][27] * image_height))
     p11 = (round(keypoints[0][i][31] * image_width), round(keypoints[0][i][30] * image_height))
 
-    points = [p6, p7, p8, p9, p10, p11] # p1, p2, p3, p4, p5,
+    points = [p6, p7, p8, p9, p10, p11]
     for i, coord in enumerate(points):
         cv2.circle(image_rgb, coord, 5, BLUE, -1)
 
-    # cv2.line(image_rgb, p2, p1, lines_color, LINE_THICKNESS)
-    # cv2.line(image_rgb, p1, p3, lines_color, LINE_THICKNESS)
-    # cv2.line(image_rgb, p2, p4, lines_color, LINE_THICKNESS)
-    # cv2.line(image_rgb, p3, p5, lines_color, LINE_THICKNESS)
     cv2.line(image_rgb, p6, p7, lines_color, LINE_THICKNESS)
     cv2.line(image_rgb, p6, p8, lines_color, LINE_THICKNESS)  # left hand
     cv2.line(image_rgb, p7, p9, lines_color, LINE_THICKNESS)  # right hand
