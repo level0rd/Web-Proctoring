@@ -7,8 +7,8 @@ import pvcobra
 from pvrecorder import PvRecorder
 
 from exam import Exam, Violation
-from movenet_utils import get_movenet_keypoints, second_person_detection, draw_pose
-from gaze_direction import get_gaze_direction
+from movenet_pose_detection import get_movenet_keypoints, second_person_detection, draw_pose
+from dlib_gaze_direction import get_gaze_direction
 
 
 POSE_MODEL = 'models/move_net_openvino.xml'
