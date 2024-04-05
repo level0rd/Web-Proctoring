@@ -8,7 +8,7 @@ streamlit run main.py
 
 ## Architecture
 <p align="center">
-  <img width="4096" alt="Arch2_6" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/d2e07669-2e90-45b7-8fba-e0647729c3f5.png">
+  <img width="4096" alt="Arch3_1" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/a6afe73e-7c77-4432-a893-9716f7abf8dc.png">
 </p>
 
 ## Examples
