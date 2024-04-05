@@ -120,7 +120,7 @@ def main():
         mode=WebRtcMode.SENDRECV,
         video_frame_callback=callback,
         audio_frame_callback=process_audio,
-        media_stream_constraints={"video": True, "audio": False},
+        media_stream_constraints={"video": True, "audio": True},
         async_processing=True,
     )
 
