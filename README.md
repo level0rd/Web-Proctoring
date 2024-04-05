@@ -24,3 +24,6 @@ streamlit run main.py
 
 ### The direction of view
 ![Direction_of_view](https://github.com/level0rd/Web-Proctoring/assets/45522296/3f210f53-cbbf-4fad-af2e-fb7e095f41d0)
+
+### Recording of the detected second person in the frame onto the video file
+![Double_person_v2](https://github.com/level0rd/Web-Proctoring/assets/45522296/06bf1ffa-c224-4b58-8fec-5b73cc671e12)
