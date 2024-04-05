@@ -1,5 +1,4 @@
 import av
-from enum import Enum
 from openvino.runtime import Core
 from streamlit_webrtc import WebRtcMode, webrtc_streamer
 from face_detectors import Ultralight320Detector
@@ -31,11 +30,6 @@ cobra = pvcobra.create(access_key='your_access_key')
 recorder = PvRecorder(frame_length=512, device_index=3)
 
 
-class HandsPosition(Enum):
-    BOTTOM = "BOTTOM"
-    TOP = "TOP"
-
-
 exam = Exam()
 
 
@@ -60,7 +54,6 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
     if second_person_detection(keypoints):
         exam.violation = True
         exam.violation_type = Violation.SECOND_PERSON.value
-        #cv2.putText(copied_frame, 'Second person detected!', (10, 260), FONT, FONT_SIZE, RED,  FONT_THICKNESS)
         draw_pose(1, keypoints, img_rgb, RED)
     else:
         exam.violation = False
@@ -77,20 +70,15 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
         hand_border = (image_height / 100) * 85
 
         if p11[1] > hand_border or p10[1] > hand_border:
-            #hands_positions = HandsPosition.BOTTOM.value
             exam.violation = False
         else:
-            #hands_positions = HandsPosition.TOP.value
             exam.violation = True
             exam.violation_type = Violation.HANDS_RAISED.value
-        #cv2.putText(image_rgb, 'Hands: ' + hands_positions, (10, 90), FONT, FONT_SIZE, RED, FONT_THICKNESS)
 
         try:
             if get_gaze_direction(img_rgb, image_height, image_width, face_detector) != "CENTER":
                 exam.violation = True
                 exam.violation_type = Violation.GAZE_AVERSION.value
-            # cv2.putText(image_rgb, 'Eyes: ' + get_gaze_direction(image_rgb, image_height, image_width), (10, 90), FONT, # (10, 120)
-            #             FONT_SIZE, RED, FONT_THICKNESS)
             else:
                 exam.violation = False
         except IndexError:
@@ -99,7 +87,6 @@ def callback(frame: av.VideoFrame) -> av.VideoFrame:
     else:
         exam.violation = True
         exam.violation_type = Violation.LEAVING_PERSON.value
-        #cv2.putText(image_rgb, 'The examinee is absent!', (10, 200), FONT, FONT_SIZE + 1, RED, FONT_THICKNESS)
 
     exam.record(av.VideoFrame.from_ndarray(img_rgb, format="rgb24"))
 
@@ -140,6 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# streamlit run E:\PyCharmProjects\Web-Proctoring\pages\record_newv2.py
