@@ -11,6 +11,7 @@ pydub==0.25.1
 streamlit==1.16.0
 streamlit_webrtc==0.44.2
 typing_extensions==4.1.1
+tensorflow==2.15.0
 protobuf>=3.19.0
 pvcobra>=1.2.2
 pvrecorder>=1.2.1
