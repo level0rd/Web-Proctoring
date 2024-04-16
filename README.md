@@ -2,9 +2,19 @@
 Simple web application analyzes user actions for video proctoring systems. It automatically tracks the user’s gaze direction and hand position. The system detects the user’s departure and the presence of a second person. The presence of a voice is also detects.
 
 ## Build and run the application locally
-```python
+```bash
 streamlit run main.py
 ```
+
+## Build and run the application in Docker
+```bash
+# Build Docker image
+docker build . -t streamlit
+# Run Docker container
+docker run -p 8501:8501 streamlit
+```
+
+If the Docker container is running locally, the application will be available at http://localhost:8501.
 
 ## Architecture
 <p align="center">
