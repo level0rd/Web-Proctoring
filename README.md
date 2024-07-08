@@ -18,12 +18,12 @@ If the Docker container is running locally, the application will be available at
 
 ## Architecture
 <p align="center">
-  <img width="4096" alt="Arch3_1" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/0bbca3c3-3540-429f-a66f-6e10a7035505.png">
+  <img width="4096" alt="Arch3_1" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/918cddd3-3bb8-46d6-8c41-f9a45e68c53b.png">
 </p>
 
 ## Examples
 <p align="center">
-  <img width="1000" alt="Arch2" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/1d401762-0e82-4152-8ec1-886df33829e1.jpg">
+  <img width="1000" alt="Arch2" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/0bbca3c3-3540-429f-a66f-6e10a7035505.png">
 </p>
 
 ### User leaving the frame
