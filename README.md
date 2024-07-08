@@ -29,9 +29,6 @@ If the Docker container is running locally, the application will be available at
 ### User leaving the frame
 ![Leaving](https://github.com/level0rd/Web-Proctoring/assets/45522296/5575fcf5-e058-4df0-a10d-389faa95affc)
 
-### The second person in the frame
-![Second_person](https://github.com/level0rd/Web-Proctoring/assets/45522296/2406d509-ddc6-490b-a988-04f0ef00b3d6)
-
 ### The direction of view
 ![Direction_of_view](https://github.com/level0rd/Web-Proctoring/assets/45522296/3f210f53-cbbf-4fad-af2e-fb7e095f41d0)
 
