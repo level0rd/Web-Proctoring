@@ -18,7 +18,7 @@ If the Docker container is running locally, the application will be available at
 
 ## Architecture
 <p align="center">
-  <img width="4096" alt="Arch3_1" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/a6afe73e-7c77-4432-a893-9716f7abf8dc.png">
+  <img width="4096" alt="Arch3_1" src="https://github.com/level0rd/Web-Proctoring/assets/45522296/0bbca3c3-3540-429f-a66f-6e10a7035505.png">
 </p>
 
 ## Examples
